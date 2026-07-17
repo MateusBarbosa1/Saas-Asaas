@@ -1,0 +1,19 @@
+{
+  "name": "saas-asaas",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "MB e Marcos",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "body-parser": "^2.3.0",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14"
+  }
+}
