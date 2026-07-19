@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 @font-face{ font-family:'Abhaya Libre'; src:url('/fonts/AbhayaLibre-Regular.ttf') format('truetype'); font-weight:400; font-style:normal; font-display:swap; }
 @font-face{ font-family:'Abhaya Libre'; src:url('/fonts/AbhayaLibre-Medium.ttf') format('truetype'); font-weight:500; font-style:normal; font-display:swap; }
@@ -25,7 +25,7 @@
   --radius: 18px;
   --radius-sm: 10px;
   --display: 'Abhaya Libre', serif;
-  --body: 'Manrope', sans-serif;
+  --body: 'IBM Plex Sans', sans-serif;
   --mono: 'IBM Plex Mono', monospace;
 }
 

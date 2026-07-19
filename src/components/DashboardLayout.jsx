@@ -1,14 +1,13 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, ClipboardList, FolderOpen, Settings, LogOut, Menu } from 'lucide-react';
+import { Home as HomeIcon, Globe, Wallet, User, LogOut, Menu } from 'lucide-react';
 import { useState } from 'react';
 import { MOCK_USER } from '../data/mock';
 import './dashboardLayout.css';
 
 const NAV_ITEMS = [
-  { to: '/dashboard', label: 'Visão geral', icon: LayoutDashboard },
-  { to: '/briefing', label: 'Briefing do site', icon: ClipboardList },
-  { to: '/arquivos', label: 'Arquivos', icon: FolderOpen },
-  { to: '/configuracoes', label: 'Configurações', icon: Settings },
+  { to: '/home', label: 'Home', icon: HomeIcon },
+  { to: '/sites', label: 'Meus sites', icon: Globe },
+  { to: '/plano', label: 'Meu plano', icon: Wallet },
 ];
 
 export default function DashboardLayout({ children, onLogout }) {
@@ -24,7 +23,8 @@ export default function DashboardLayout({ children, onLogout }) {
     <div className="shell">
       <aside className={`sidebar ${open ? 'open' : ''}`}>
         <a href="/" className="sidebar-logo">
-          <img src="/img/transparencia-logo-simples-cinza.png" alt="WA Web Design" />
+          <img src="/img/transparencia-logo-simples-cinza.svg" alt="" aria-hidden="true" />
+          <span className="sidebar-logo-text">WA<span>Web Design</span></span>
         </a>
 
         <nav className="sidebar-nav">
@@ -41,10 +41,20 @@ export default function DashboardLayout({ children, onLogout }) {
           ))}
         </nav>
 
-        <button className="sidebar-logout" onClick={handleLogout}>
-          <LogOut size={17} strokeWidth={1.8} />
-          Sair
-        </button>
+        <div className="sidebar-foot">
+          <NavLink
+            to="/conta"
+            className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
+            onClick={() => setOpen(false)}
+          >
+            <User size={18} strokeWidth={1.8} />
+            Minha conta
+          </NavLink>
+          <button className="sidebar-logout" onClick={handleLogout}>
+            <LogOut size={17} strokeWidth={1.8} />
+            Sair
+          </button>
+        </div>
       </aside>
 
       <div className="shell-main">
@@ -52,7 +62,7 @@ export default function DashboardLayout({ children, onLogout }) {
           <button className="burger" onClick={() => setOpen(!open)} aria-label="Abrir menu">
             <Menu size={22} />
           </button>
-          <img src="/img/transparencia-logo-simples-cinza.png" alt="WA Web Design" className="topbar-logo" />
+          <img src="/img/transparencia-logo-simples-cinza.svg" alt="WA Web Design" className="topbar-logo" />
           <div className="topbar-spacer" />
           <div className="topbar-user">
             <div className="avatar">{MOCK_USER.name.charAt(0)}</div>

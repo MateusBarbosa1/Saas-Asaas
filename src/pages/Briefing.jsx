@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import { Check, ChevronLeft, ChevronRight, PartyPopper } from 'lucide-react';
 import { PAGE_OPTIONS, FEATURE_OPTIONS, COLOR_PRESETS } from '../data/mock';
+import { useSites } from '../context/SitesContext';
 import './briefing.css';
 
 const STEPS = [
@@ -26,6 +28,10 @@ function toggleItem(list, item) {
 }
 
 export default function Briefing() {
+  const { siteId } = useParams();
+  const { sites } = useSites();
+  const site = sites.find((s) => s.id === siteId);
+
   const [step, setStep] = useState(0);
   const [form, setForm] = useState(initialForm);
   const [submitted, setSubmitted] = useState(false);
@@ -33,6 +39,8 @@ export default function Briefing() {
   const update = (key, value) => setForm((f) => ({ ...f, [key]: value }));
   const isLast = step === STEPS.length - 1;
   const isFirst = step === 0;
+
+  if (!site) return <Navigate to="/sites" replace />;
 
   function next() {
     if (isLast) { setSubmitted(true); return; }
@@ -46,19 +54,23 @@ export default function Briefing() {
         <PartyPopper size={34} color="var(--brass)" strokeWidth={1.6} />
         <h2>Briefing enviado!</h2>
         <p className="lede">
-          Recebemos suas respostas. A equipe da WA vai revisar tudo antes de avançar
-          para a próxima etapa do Método WA. Nada aqui foi salvo em servidor ainda —
-          isso é só a versão de front-end.
+          Recebemos suas respostas sobre <strong>{site.name}</strong>. A equipe da WA vai revisar
+          tudo antes de avançar para a próxima etapa do Método WA. Nada aqui foi salvo em
+          servidor ainda — isso é só a versão de front-end.
         </p>
-        <button className="btn btn-brass" onClick={() => { setSubmitted(false); setStep(0); }}>
-          Revisar respostas
-        </button>
+        <div className="briefing-done-actions">
+          <button className="btn btn-ghost" onClick={() => { setSubmitted(false); setStep(0); }}>
+            Revisar respostas
+          </button>
+          <Link to={`/sites/${site.id}`} className="btn btn-brass">Voltar para o site</Link>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="briefing">
+      <Link to={`/sites/${site.id}`} className="site-detail-back">← {site.name}</Link>
       <div className="eyebrow">Briefing do site</div>
       <h1>Conte pra gente o que você precisa</h1>
       <p className="lede">Suas respostas alimentam diretamente o estudo de mercado e o design do seu site.</p>
@@ -77,18 +89,15 @@ export default function Briefing() {
           <div className="field-group">
             <div className="field">
               <label>Qual o nicho / segmento do seu negócio?</label>
-              <input type="text" value={form.nicho} onChange={(e) => update('nicho', e.target.value)}
-                placeholder="Ex: confecção e venda de roupas no atacado" />
+              <input type="text" value={form.nicho} onChange={(e) => update('nicho', e.target.value)} />
             </div>
             <div className="field">
               <label>Quem é o seu público-alvo?</label>
-              <input type="text" value={form.publico} onChange={(e) => update('publico', e.target.value)}
-                placeholder="Ex: lojistas de roupa da região" />
+              <input type="text" value={form.publico} onChange={(e) => update('publico', e.target.value)} />
             </div>
             <div className="field">
               <label>O que diferencia você da concorrência?</label>
-              <textarea value={form.diferenciais} onChange={(e) => update('diferenciais', e.target.value)}
-                placeholder="Ex: entrega rápida, preço de fábrica, atendimento próximo" />
+              <textarea value={form.diferenciais} onChange={(e) => update('diferenciais', e.target.value)} />
             </div>
           </div>
         )}
@@ -152,8 +161,7 @@ export default function Briefing() {
             </div>
             <div className="field">
               <label>Outra página que não está na lista?</label>
-              <input type="text" value={form.paginaCustom} onChange={(e) => update('paginaCustom', e.target.value)}
-                placeholder="Ex: Trabalhe conosco" />
+              <input type="text" value={form.paginaCustom} onChange={(e) => update('paginaCustom', e.target.value)} />
             </div>
           </div>
         )}
@@ -191,8 +199,7 @@ export default function Briefing() {
             </div>
             <div className="field">
               <label>Alguma observação sobre o conteúdo?</label>
-              <textarea value={form.notasConteudo} onChange={(e) => update('notasConteudo', e.target.value)}
-                placeholder="Ex: tenho fotos dos produtos mas preciso de textos institucionais" />
+              <textarea value={form.notasConteudo} onChange={(e) => update('notasConteudo', e.target.value)} />
             </div>
           </div>
         )}
@@ -201,13 +208,11 @@ export default function Briefing() {
           <div className="field-group">
             <div className="field">
               <label>Prazo desejado</label>
-              <input type="text" value={form.prazo} onChange={(e) => update('prazo', e.target.value)}
-                placeholder="Ex: até 30 dias" />
+              <input type="text" value={form.prazo} onChange={(e) => update('prazo', e.target.value)} />
             </div>
             <div className="field">
               <label>Faixa de orçamento (opcional)</label>
-              <input type="text" value={form.orcamento} onChange={(e) => update('orcamento', e.target.value)}
-                placeholder="Ex: R$ 2.000 – R$ 4.000" />
+              <input type="text" value={form.orcamento} onChange={(e) => update('orcamento', e.target.value)} />
             </div>
 
             <div className="review">

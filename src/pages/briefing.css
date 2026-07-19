@@ -1,6 +1,12 @@
 .briefing h1{ font-size:27px; margin:12px 0 8px; }
 .briefing .lede{ color:var(--ash); font-size:14.5px; margin-bottom:32px; }
 
+.site-detail-back{
+  display:inline-block; font-size:13px; color:var(--ash-dim); margin-bottom:18px;
+  transition:color .18s;
+}
+.site-detail-back:hover{ color:var(--brass); }
+
 .briefing-steps{
   display:flex; flex-wrap:wrap; gap:10px; margin-bottom:26px;
 }
@@ -65,3 +71,4 @@
 }
 .briefing-done h2{ font-size:24px; }
 .briefing-done .lede{ color:var(--ash); font-size:14px; margin-bottom:10px; }
+.briefing-done-actions{ display:flex; gap:12px; }

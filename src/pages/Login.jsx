@@ -17,32 +17,27 @@ export default function Login({ onLogin }) {
     // Sem backend ainda: qualquer combinação válida "loga".
     setError('');
     onLogin();
-    navigate('/dashboard');
+    navigate('/home');
   }
 
   return (
     <div className="login-screen">
       <div className="login-side">
-        <img
-          src="/img/transparencia-logo-simples-cinza.png"
-          alt=""
-          aria-hidden="true"
-          className="login-watermark"
-        />
-
-        <a href="/" className="login-logo">
-          <img src="/img/transparencia-logo-completo-branco.png" alt="WA Web Design" />
-        </a>
-        <h1>Acompanhe o seu site do início ao ar.</h1>
-        <p className="lede">
-          Aqui você acompanha cada etapa do Método WA em tempo real, envia
-          arquivos e conta pra gente exatamente o que precisa no seu site.
-        </p>
-        <ul className="login-points">
-          <li>Progresso das 6 etapas do desenvolvimento</li>
-          <li>Formulário de briefing guiado</li>
-          <li>Histórico de atualizações do projeto</li>
-        </ul>
+        <div className="login-content">
+          <a href="/" className="login-logo">
+            <img src="/img/transparencia-logo-completo-branco.svg" alt="WA Web Design" />
+          </a>
+          <h1>Acompanhe o seu site do início ao ar.</h1>
+          <p className="lede">
+            Aqui você acompanha cada etapa do Método WA em tempo real, envia
+            arquivos e conta pra gente exatamente o que precisa no seu site.
+          </p>
+          <ul className="login-points">
+            <li>Progresso das 6 etapas do desenvolvimento</li>
+            <li>Formulário de briefing guiado</li>
+            <li>Histórico de atualizações do projeto</li>
+          </ul>
+        </div>
       </div>
 
       <div className="login-form-wrap">
@@ -82,7 +77,7 @@ export default function Login({ onLogin }) {
           <div className="login-foot">
             <a href="#">Esqueci minha senha</a>
             <span>·</span>
-            <a href="#">Falar com a equipe</a>
+            <a href="#/criar-conta">Criar conta</a>
           </div>
         </form>
       </div>

@@ -5,10 +5,17 @@
   padding:28px 20px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh;
 }
 .sidebar-logo{
-  display:flex; margin-bottom:30px; padding:4px 8px 20px;
+  display:flex; align-items:center; gap:12px;
+  margin-bottom:26px; padding:4px 6px 22px;
   border-bottom:1px solid var(--line);
 }
-.sidebar-logo img{ height:80px; width:auto; max-width:100%; display:block; }
+.sidebar-logo img{ height:40px; width:auto; display:block; flex-shrink:0; }
+.sidebar-logo-text{
+  font-family:var(--display); font-size:16px; font-weight:600;
+  letter-spacing:.01em; color:var(--ivory); line-height:1.25;
+}
+.sidebar-logo-text span{ display:block; font-family:var(--mono); font-size:10px;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--ash-dim); font-weight:500; margin-top:2px; }
 
 .sidebar-nav{ display:flex; flex-direction:column; gap:4px; flex-grow:1; }
 .sidebar-link{
@@ -18,10 +25,15 @@
 .sidebar-link:hover{ background:var(--ink-3); color:var(--ivory); }
 .sidebar-link.active{ background:rgba(255,255,255,0.10); color:var(--brass-soft); }
 
+.sidebar-foot{
+  display:flex; flex-direction:column; gap:4px; padding-top:14px; margin-top:14px;
+  border-top:1px solid var(--line);
+}
+
 .sidebar-logout{
   display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:var(--radius-sm);
   background:none; border:none; color:var(--ash-dim); font-size:14px; font-weight:600; cursor:pointer;
-  transition:background .18s, color .18s;
+  width:100%; text-align:left; transition:background .18s, color .18s;
 }
 .sidebar-logout:hover{ background:var(--ink-3); color:#f0a49c; }
 
@@ -33,7 +45,7 @@
 }
 .topbar-spacer{ flex-grow:1; }
 .burger{ display:none; background:none; border:none; color:var(--ivory); }
-.topbar-logo{ display:none; height:40px; width:auto; }
+.topbar-logo{ display:none; height:46px; width:auto; }
 
 .topbar-user{ display:flex; align-items:center; gap:12px; }
 .avatar{
@@ -59,6 +71,6 @@
 }
 
 @media(max-width:420px){
-  .sidebar-logo img{ height:58px; }
-  .topbar-logo{ height:34px; }
+  .sidebar-logo img{ height:34px; }
+  .topbar-logo{ height:36px; }
 }
