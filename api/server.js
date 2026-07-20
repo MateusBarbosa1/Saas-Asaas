@@ -7,11 +7,6 @@ const path = require("path");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.engine("html", require("ejs").renderFile);
-app.set("view engine", "html");
-app.use(express.static(path.join(__dirname, "./public")));
-app.set("views", path.join(__dirname, "views"));
-
 const routesPath = path.join(__dirname, "routes");
 
 fs.readdirSync(routesPath).forEach((file) => {
