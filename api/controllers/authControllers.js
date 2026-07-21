@@ -19,7 +19,7 @@ module.exports.registerUser = async (app, req, res) => {
     };
     const user = await authModel.registerUser(userObject);
     if (user.success == false) {
-      return res.status(500).json(user);
+      return res.status(409).json(user);
     }
 
     const token = signToken(user.data.id);
