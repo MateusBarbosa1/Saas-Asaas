@@ -1,14 +1,16 @@
 const authModel = require("../models/authModel.js");
+const bcrypt = require("bcrypt");
 
 module.exports.registerUser = async (app, req, res) => {
   try {
-    const data = req.body;
+    const hashedPassword = await bcrypt.hash(req.body.password, 10); // criptografa a senha
+
     const userObject = {
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password,
+      password: hashedPassword,
       plan: "",
-      phoneNumber: 123456789,
+      phoneNumber: 0,
     };
     const user = await authModel.registerUser(userObject);
     if (user.success == false) {

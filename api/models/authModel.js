@@ -9,7 +9,7 @@ async function registerUser(userObject) {
     });
     return {
       success: true,
-      message: "User created successfully",
+      message: "Usuario criado com sucesso!",
       data: {
         id: user.id,
         email: user.email,
