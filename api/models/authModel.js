@@ -11,9 +11,11 @@ async function registerUser(userObject) {
       success: true,
       message: "Usuario criado com sucesso!",
       data: {
-        id: user.id,
-        email: user.email,
-        createdAt: user.createdAt,
+        user: {
+          id: user.id,
+          email: user.email,
+          createdAt: user.createdAt,
+        },
       },
     };
   } catch (error) {
@@ -30,6 +32,29 @@ async function registerUser(userObject) {
     };
   }
 }
+async function findUserEMAIL(email) {
+  try {
+    const user = await prisma.users.findUniqueOrThrow({
+      where: {
+        email: email,
+      },
+    });
+    return {
+      success: true,
+      message: "Email encontrado com sucesso!",
+      data: {
+        user: user,
+      },
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Erro ao buscar email.",
+    };
+  }
+}
+
 module.exports = {
   registerUser,
+  findUserEMAIL,
 };
