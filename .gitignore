@@ -1,5 +1,17 @@
-/api/node_modules
-/frontend/node_modules
-/api/generated/prisma
-/api/.env
-/.vscode
+# Dependências
+api/node_modules/
+frontend/node_modules/
+
+# Prisma
+api/generated/prisma/
+
+# Variáveis de ambiente
+api/.env
+frontend/.env
+.env
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store

@@ -21,4 +21,57 @@ model Users {
   plan String
   phoneNumber Int
   createdAt DateTime @default(now())
+  sites Sites[]
+}
+
+model Sites {
+  id           String   @id @default(uuid())
+  userId       String
+  user         Users    @relation(fields: [userId], references: [id])
+  name         String
+  url          String?
+  type         String   @default("site") // "site" | "landing"
+  status       String   @default("em-desenvolvimento") // em-desenvolvimento | no-ar | pausado
+  currentStage Int      @default(1)
+  createdAt    DateTime @default(now())
+
+  pages   SitePages[]
+  updates SiteUpdates[]
+  files   SiteFiles[]
+  plan    SitePlan?
+}
+
+model SitePages {
+  id     String  @id @default(uuid())
+  siteId String
+  site   Sites   @relation(fields: [siteId], references: [id])
+  name   String
+  done   Boolean @default(false)
+}
+
+model SiteUpdates {
+  id     String   @id @default(uuid())
+  siteId String
+  site   Sites    @relation(fields: [siteId], references: [id])
+  text   String
+  date   DateTime @default(now())
+}
+
+model SiteFiles {
+  id     String @id @default(uuid())
+  siteId String
+  site   Sites  @relation(fields: [siteId], references: [id])
+  name   String
+  size   String
+}
+
+model SitePlan {
+  id          String   @id @default(uuid())
+  siteId      String   @unique
+  site        Sites    @relation(fields: [siteId], references: [id])
+  name        String
+  price       String
+  cycle       String
+  nextPayment String?
+  includes    String[]
 }

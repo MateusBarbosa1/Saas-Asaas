@@ -6,6 +6,7 @@ import './newSiteWizard.css';
 
 const STEP_LABELS = {
   tipo: 'Tipo de projeto',
+  conta: 'Sua conta',
   negocio: 'Negócio',
   visual: 'Identidade visual',
   estrutura: 'Estrutura',
@@ -20,6 +21,7 @@ function toggleItem(list, item) {
 
 const initialForm = {
   tipoProjeto: '',
+  nomeConta: '', empresa: '', emailConta: '', senha: '',
   nicho: '', publico: '', diferenciais: '',
   paleta: COLOR_PRESETS[0].name, temLogo: 'sim', referencias: '',
   paginas: ['Home', 'Sobre', 'Contato'],
@@ -30,10 +32,10 @@ const initialForm = {
   prazo: '', orcamento: '',
 };
 
-const STEPS = ['tipo', 'negocio', 'visual', 'estrutura', 'funcionalidades', 'conteudo', 'revisao'];
-
-export default function NewSiteWizard({ onComplete, submitting = false }) {
-  const steps = STEPS;
+export default function NewSiteWizard({ mode = 'add-site', onComplete, submitting = false }) {
+  const steps = mode === 'signup'
+    ? ['tipo', 'conta', 'negocio', 'visual', 'estrutura', 'funcionalidades', 'conteudo', 'revisao']
+    : ['tipo', 'negocio', 'visual', 'estrutura', 'funcionalidades', 'conteudo', 'revisao'];
 
   const [stepIndex, setStepIndex] = useState(0);
   const [form, setForm] = useState(initialForm);
@@ -55,7 +57,8 @@ export default function NewSiteWizard({ onComplete, submitting = false }) {
 
   function submit() {
     const estrutura = isLanding ? form.secoesLanding : form.paginas;
-    const label = form.nicho || 'Novo projeto';
+    const baseName = mode === 'signup' ? (form.empresa || form.nomeConta) : form.nicho;
+    const label = baseName || 'Novo projeto';
 
     const sitePayload = {
       name: isLanding ? `Landing page — ${label}` : `Site institucional — ${label}`,
@@ -63,7 +66,11 @@ export default function NewSiteWizard({ onComplete, submitting = false }) {
       pages: estrutura,
     };
 
-    onComplete(sitePayload);
+    const account = mode === 'signup'
+      ? { nome: form.nomeConta, empresa: form.empresa, email: form.emailConta, senha: form.senha }
+      : null;
+
+    onComplete(sitePayload, account);
   }
 
   return (
@@ -94,6 +101,32 @@ export default function NewSiteWizard({ onComplete, submitting = false }) {
                 <strong>Landing page</strong>
                 <span>Uma página única, focada em converter</span>
               </button>
+            </div>
+          </div>
+        )}
+
+        {stepId === 'conta' && (
+          <div className="field-group">
+            <div className="field">
+              <label htmlFor="nomeConta">Seu nome</label>
+              <input id="nomeConta" type="text" value={form.nomeConta}
+                onChange={(e) => update('nomeConta', e.target.value)} />
+            </div>
+            <div className="field">
+              <label htmlFor="empresa">Nome da empresa</label>
+              <input id="empresa" type="text" value={form.empresa}
+                onChange={(e) => update('empresa', e.target.value)} />
+            </div>
+            <div className="field">
+              <label htmlFor="emailConta">E-mail</label>
+              <input id="emailConta" type="email" value={form.emailConta}
+                onChange={(e) => update('emailConta', e.target.value)} placeholder="voce@empresa.com.br" autoComplete="email" />
+            </div>
+            <div className="field">
+              <label htmlFor="senha">Senha</label>
+              <input id="senha" type="password" value={form.senha}
+                onChange={(e) => update('senha', e.target.value)} placeholder="••••••••" autoComplete="new-password" />
+              <p className="hint">Sem backend ainda: isso fica só nesta sessão.</p>
             </div>
           </div>
         )}
@@ -234,6 +267,9 @@ export default function NewSiteWizard({ onComplete, submitting = false }) {
             </div>
             <div className="review">
               <h3>Resumo do pedido</h3>
+              {mode === 'signup' && (
+                <div className="review-row"><span>Conta</span><strong>{form.nomeConta || '—'} · {form.empresa || '—'}</strong></div>
+              )}
               <div className="review-row"><span>Tipo</span><strong>{isLanding ? 'Landing page' : 'Site completo'}</strong></div>
               <div className="review-row"><span>Nicho</span><strong>{form.nicho || '—'}</strong></div>
               <div className="review-row"><span>Público-alvo</span><strong>{form.publico || '—'}</strong></div>
@@ -251,7 +287,7 @@ export default function NewSiteWizard({ onComplete, submitting = false }) {
           </button>
           <button className="btn btn-brass" onClick={next} disabled={!canAdvance || submitting}>
             {isLast
-              ? (submitting ? 'Enviando...' : 'Enviar pedido de novo site')
+              ? (submitting ? 'Enviando...' : (mode === 'signup' ? 'Criar minha conta' : 'Enviar pedido de novo site'))
               : 'Continuar'}
             {!isLast && <ChevronRight size={16} />}
           </button>

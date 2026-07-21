@@ -1,23 +1,36 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { apiFetch, setToken } from '../lib/api';
 import './login.css';
 
 export default function Login({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) {
       setError('Preencha e-mail e senha para continuar.');
       return;
     }
-    // Sem backend ainda: qualquer combinação válida "loga".
     setError('');
-    onLogin();
-    navigate('/home');
+    setLoading(true);
+    try {
+      const res = await apiFetch('/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+      });
+      setToken(res.token);
+      onLogin(res.data);
+      navigate('/home');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -72,7 +85,9 @@ export default function Login({ onLogin }) {
 
           {error && <div className="login-error">{error}</div>}
 
-          <button type="submit" className="btn btn-brass btn-block">Entrar</button>
+          <button type="submit" className="btn btn-brass btn-block" disabled={loading}>
+            {loading ? 'Entrando...' : 'Entrar'}
+          </button>
 
           <div className="login-foot">
             <a href="#">Esqueci minha senha</a>

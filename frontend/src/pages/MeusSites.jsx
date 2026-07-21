@@ -30,25 +30,31 @@ export default function MeusSites() {
         </Link>
       </div>
 
-      <div className="sites-grid">
-        {sites.map((site) => {
-          const pct = siteProgress(site);
-          return (
-            <Link to={`/sites/${site.id}`} key={site.id} className="card site-card">
-              <div className="site-card-head">
-                <div className={`site-status site-status-${site.status}`}>{STATUS_LABEL[site.status]}</div>
-                <ArrowRight size={16} />
-              </div>
-              <h3>{site.name}</h3>
-              <div className="site-card-url"><Globe size={13} strokeWidth={1.8} /> {site.url}</div>
-              <div className="site-card-bar">
-                <div className="site-card-fill" style={{ width: `${pct}%` }} />
-              </div>
-              <div className="site-card-pct">{pct}% concluído</div>
-            </Link>
-          );
-        })}
-      </div>
+      {sites.length === 0 ? (
+        <div className="card sites-empty">
+          <p>Você ainda não pediu nenhum site. Clique em "Adicionar site" para começar.</p>
+        </div>
+      ) : (
+        <div className="sites-grid">
+          {sites.map((site) => {
+            const pct = siteProgress(site);
+            return (
+              <Link to={`/sites/${site.id}`} key={site.id} className="card site-card">
+                <div className="site-card-head">
+                  <div className={`site-status site-status-${site.status}`}>{STATUS_LABEL[site.status]}</div>
+                  <ArrowRight size={16} />
+                </div>
+                <h3>{site.name}</h3>
+                <div className="site-card-url"><Globe size={13} strokeWidth={1.8} /> {site.url}</div>
+                <div className="site-card-bar">
+                  <div className="site-card-fill" style={{ width: `${pct}%` }} />
+                </div>
+                <div className="site-card-pct">{pct}% concluído</div>
+              </Link>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

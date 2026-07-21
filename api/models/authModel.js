@@ -30,6 +30,12 @@ async function registerUser(userObject) {
     };
   }
 }
+
+async function findUserByEmail(email) {
+  return prisma.users.findUnique({ where: { email } });
+}
+
 module.exports = {
   registerUser,
+  findUserByEmail,
 };

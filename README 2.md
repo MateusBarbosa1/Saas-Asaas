@@ -129,38 +129,6 @@ A API é responsável por:
 
 ---
 
-# Configuração (antes de rodar pela primeira vez)
-
-O login, cadastro e sites agora conversam de verdade com o banco — precisa configurar duas coisas:
-
-### 1. Variáveis de ambiente
-
-Copie os arquivos de exemplo e preencha com os valores reais:
-
-```bash
-cd api
-cp .env.example .env
-# edite .env: DATABASE_URL com a string de conexão do seu Postgres,
-# e troque o JWT_SECRET por um valor forte (nunca comite o .env real)
-
-cd ../frontend
-cp .env.example .env
-# VITE_API_URL já vem certo pra desenvolvimento local (http://localhost:3000)
-```
-
-### 2. Rodar as migrações do banco
-
-Com o `DATABASE_URL` configurado, aplique o schema no banco:
-
-```bash
-cd api
-npx prisma migrate dev
-```
-
-Isso cria as tabelas `Users`, `Sites`, `SitePages`, `SiteUpdates`, `SiteFiles` e `SitePlan`.
-
----
-
 # Desenvolvimento
 
 Para executar o projeto completo, mantenha dois terminais abertos:
@@ -180,20 +148,3 @@ cd frontend
 npm install
 npm run dev
 ```
-
-O front chama a API em `http://localhost:3000` (configurável via `VITE_API_URL`). CORS já está liberado no `server.js`.
-
----
-
-# O que já está ligado de ponta a ponta
-
-- **Criar conta** (`/criar-conta`) → `POST /auth/register`, salva no banco, já cria o primeiro site
-- **Login** (`/`) → `POST /auth/login`, token JWT salvo no navegador, sessão persiste ao recarregar a página
-- **Adicionar site** (`/sites/novo`) → `POST /sites`, autenticado
-- **Meus sites / Home / detalhe do site** → `GET /sites` e `GET /sites/:id`, autenticados
-
-# O que ainda falta
-
-- O wizard de briefing coleta nicho, público, diferenciais, paleta, funcionalidades, conteúdo, prazo e orçamento — hoje só nome, tipo e páginas são salvos no banco. O resto precisa de uma tabela própria (`Briefing`) pra não se perder.
-- "Minha conta" continua só uma tela de espaço reservado (placeholder).
-- Não tem edição/toggle do checklist de páginas ainda (isso seria o painel admin marcando como concluído).

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Globe, Plus } from 'lucide-react';
+import { ArrowRight, Globe } from 'lucide-react';
 import { getUser } from '../lib/api';
 import { useSites } from '../context/SitesContext';
 import { siteProgress } from './MeusSites';
@@ -21,22 +21,6 @@ export default function Home() {
   const allUpdates = sites
     .flatMap((s) => s.updates.map((u) => ({ ...u, site: s.name, siteId: s.id })))
     .slice(0, 5);
-
-  if (sites.length === 0) {
-    return (
-      <div className="home">
-        <div className="eyebrow">Visão geral</div>
-        <h1>Olá, {user.name.split(' ')[0]}</h1>
-        <p className="lede">Você ainda não tem nenhum site com a gente.</p>
-
-        <Link to="/sites/novo" className="card home-empty-cta">
-          <Plus size={26} strokeWidth={1.6} />
-          <strong>Criar meu site</strong>
-          <span>Conte pra gente o que você precisa — a equipe da WA revisa e dá início ao estudo de mercado.</span>
-        </Link>
-      </div>
-    );
-  }
 
   return (
     <div className="home">

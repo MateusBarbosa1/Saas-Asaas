@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Home as HomeIcon, Globe, Wallet, User, LogOut, Menu } from 'lucide-react';
 import { useState } from 'react';
-import { MOCK_USER } from '../data/mock';
+import { getUser } from '../lib/api';
 import './dashboardLayout.css';
 
 const NAV_ITEMS = [
@@ -13,6 +13,7 @@ const NAV_ITEMS = [
 export default function DashboardLayout({ children, onLogout }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const user = getUser() || { name: 'Cliente', email: '' };
 
   function handleLogout() {
     onLogout();
@@ -65,10 +66,10 @@ export default function DashboardLayout({ children, onLogout }) {
           <img src="/img/transparencia-logo-simples-cinza.svg" alt="WA Web Design" className="topbar-logo" />
           <div className="topbar-spacer" />
           <div className="topbar-user">
-            <div className="avatar">{MOCK_USER.name.charAt(0)}</div>
+            <div className="avatar">{user.name.charAt(0)}</div>
             <div className="topbar-user-text">
-              <strong>{MOCK_USER.name}</strong>
-              <span>{MOCK_USER.company}</span>
+              <strong>{user.name}</strong>
+              <span>{user.email}</span>
             </div>
           </div>
         </header>

@@ -28,7 +28,7 @@ export default function AddSite() {
       <h1>Adicionar site</h1>
       <p className="lede">Conte pra gente o que você precisa — a equipe da WA revisa e dá início ao estudo de mercado.</p>
       {error && <div className="login-error">{error}</div>}
-      <NewSiteWizard onComplete={handleComplete} submitting={submitting} />
+      <NewSiteWizard mode="add-site" onComplete={handleComplete} submitting={submitting} />
     </div>
   );
 }
